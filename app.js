@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const bcrypt = require('bcryptjs')
 const router = require('./routes/index')
+const errorHandle = require('./middleware/errorHandle')
 
 const app = express()
 const PORT = 3000
@@ -17,6 +18,7 @@ app.use(methodOverride('_method'))
 
 // routes
 app.use(router)
-
+// error handle
+app.use(errorHandle)
 
 app.listen(PORT, (req, res) => console.log(`App is running on http://localhost:${PORT}`))
