@@ -1,8 +1,9 @@
-// require packages
+// require packages and modules
 const express = require('express')
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const bcrypt = require('bcryptjs')
+const router = require('./routes/index')
 
 const app = express()
 const PORT = 3000
@@ -14,8 +15,8 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-app.get('/', (req, res) => {
-  res.send('project TODO SEQUELIZE init')
-})
+// routes
+app.use(router)
+
 
 app.listen(PORT, (req, res) => console.log(`App is running on http://localhost:${PORT}`))
