@@ -3,6 +3,7 @@ const express = require('express')
 const { engine } = require('express-handlebars')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const flash = require('connect-flash')
 const router = require('./routes/index')
 const usePassport = require('./config/passport')
 const errorHandle = require('./middleware/errorHandle')
@@ -26,6 +27,11 @@ app.use(session({
   saveUninitialized: true
 }
 ))
+app.use(flash())
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg')
+  next()
+})
 usePassport(app)
 
 // routes

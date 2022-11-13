@@ -36,4 +36,11 @@ router.post('/register', registerValidator, async (req, res, next) => {
   }
 })
 
+router.get('/logout', (req, res) => {
+  req.logOut(() => {
+    req.flash('success_msg', '你已經登出')
+    res.redirect('/users/login')
+  })
+})
+
 module.exports = router
