@@ -36,4 +36,32 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.get('/:id/edit', async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const UserId = req.user.id
+    const todo = await Todo.findOne({ where: { id, UserId } })
+    return res.render('edit', { todo: todo.toJSON() })
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:id', todoValidator, async (req, res, next) => {
+  try {
+    const errors = validationResult(req)
+    const { name, isDone } = req.body
+    const id = req.params.id
+    const UserId = req.user.id
+    if (!errors.isEmpty()) {
+      req.flash('warning_msg', errors.errors[0].msg)
+      return res.redirect(`/todos/${id}/edit`)
+    }
+    await Todo.update({ name, isDone: isDone === 'on' }, { where: { id, UserId } })
+    return res.redirect(`/todos/${id}`)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
