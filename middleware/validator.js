@@ -25,5 +25,8 @@ module.exports = {
       if (value !== req.body.password) throw new Error('請輸入相同密碼')
       return true
     })
+  ],
+  todoValidator: [
+    body('name').not().isEmpty().withMessage('請輸入待辦事項')
   ]
 }
