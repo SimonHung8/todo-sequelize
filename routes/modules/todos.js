@@ -64,4 +64,15 @@ router.put('/:id', todoValidator, async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const UserId = req.user.id
+    await Todo.destroy({ where: { id, UserId } })
+    res.redirect('/')
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
